@@ -6,5 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+if(MSVC)
+    add_compile_options(/wd4996)
+endif()
+
 add_subdirectory(ctk)
 add_subdirectory(App)
