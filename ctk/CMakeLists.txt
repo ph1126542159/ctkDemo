@@ -1,0 +1,2 @@
+add_subdirectory(ctkCore)
+add_subdirectory(ctkPluginFramework)
