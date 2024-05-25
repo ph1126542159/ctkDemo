@@ -1,0 +1,3 @@
+Plugin-SymbolicName: eventadmin
+Plugin-ActivationPolicy:eager
+Plugin-Name: eventadmin

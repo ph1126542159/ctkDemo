@@ -12,3 +12,4 @@ endif()
 
 add_subdirectory(ctk)
 add_subdirectory(App)
+add_subdirectory(Plugins)
