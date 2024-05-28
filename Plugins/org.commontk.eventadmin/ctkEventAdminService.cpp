@@ -27,13 +27,13 @@
 #include <ctkPluginConstants.h>
 
 ctkEventAdminService::ctkEventAdminService(ctkPluginContext* context,
-                                           HandlerTasksInterface* managers,
-                                           ctkEADefaultThreadPool* syncPool,
-                                           ctkEADefaultThreadPool* asyncPool,
-                                           int timeout,
-                                           const QStringList& ignoreTimeout)
+  HandlerTasksInterface* managers,
+  ctkEADefaultThreadPool* syncPool,
+  ctkEADefaultThreadPool* asyncPool,
+  int timeout,
+  const QStringList& ignoreTimeout)
   : impl(managers, syncPool, asyncPool, timeout, ignoreTimeout),
-    context(context)
+  context(context)
 {
 
 }
@@ -58,8 +58,8 @@ void ctkEventAdminService::sendEvent(const ctkEvent& event)
 }
 
 void ctkEventAdminService::publishSignal(const QObject* publisher, const char* signal,
-                                         const QString& topic,
-                                         Qt::ConnectionType type)
+  const QString& topic,
+  Qt::ConnectionType type)
 {
   if (topic.isEmpty())
   {
@@ -70,10 +70,10 @@ void ctkEventAdminService::publishSignal(const QObject* publisher, const char* s
   if (signalPublisher.contains(publisher))
   {
     const QList<ctkEASignalPublisher*>& signalPublishers = signalPublisher[publisher];
-    for(int i = 0; i < signalPublishers.size(); ++i)
+    for (int i = 0; i < signalPublishers.size(); ++i)
     {
       if (signalPublishers[i]->getSignalName() == signal &&
-          signalPublishers[i]->getTopicName() == topic)
+        signalPublishers[i]->getTopicName() == topic)
       {
         return;
       }
@@ -97,7 +97,7 @@ void ctkEventAdminService::publishSignal(const QObject* publisher, const char* s
 }
 
 void ctkEventAdminService::unpublishSignal(const QObject* publisher, const char* signal,
-                                           const QString& topic)
+  const QString& topic)
 {
   if (!signalPublisher.contains(publisher)) return;
 
@@ -151,12 +151,12 @@ void ctkEventAdminService::unpublishSignal(const QObject* publisher, const char*
 }
 
 qlonglong ctkEventAdminService::subscribeSlot(const QObject* subscriber, const char* member,
-                                              const ctkDictionary& properties, Qt::ConnectionType type)
+  const ctkDictionary& properties, Qt::ConnectionType type)
 {
   if (subscriber == 0) throw ctkInvalidArgumentException("subscriber cannot be NULL");
   if (member == 0) throw ctkInvalidArgumentException("slot cannot be NULL");
   if (type != Qt::AutoConnection && type != Qt::DirectConnection &&
-      type != Qt::QueuedConnection && type != Qt::BlockingQueuedConnection)
+    type != Qt::QueuedConnection && type != Qt::BlockingQueuedConnection)
   {
     throw ctkInvalidArgumentException("connection type invalid");
   }
@@ -197,7 +197,7 @@ void ctkEventAdminService::stop()
 }
 
 void ctkEventAdminService::update(HandlerTasksInterface* managers, int timeout,
-                                  const QStringList& ignoreTimeout)
+  const QStringList& ignoreTimeout)
 {
   impl.update(managers, timeout, ignoreTimeout);
 }

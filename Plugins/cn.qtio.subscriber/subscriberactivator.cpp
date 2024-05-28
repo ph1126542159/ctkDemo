@@ -25,13 +25,13 @@ void SubscriberActivator::stop(ctkPluginContext* context)
 
 void SubscriberActivator::handleEvent(const ctkEvent& event)
 {
-    //查看消息包所有信息
-    foreach(QString propertyName, event.getPropertyNames()) {
-        qDebug() << "key:"
-            << propertyName
-            << "value:"
-            << event.getProperty(propertyName);
-    }
+    //订阅消息测试打印
+    // foreach(QString propertyName, event.getPropertyNames()) {
+    //     qDebug() << "key:"
+    //         << propertyName
+    //         << "value:"
+    //         << event.getProperty(propertyName);
+    // }
 }
 #if (QT_VERSION < QT_VERSION_CHECK(5,0,0))
 Q_EXPORT_PLUGIN2(Subscriber, SubscriberActivator)

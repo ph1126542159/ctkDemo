@@ -8,7 +8,7 @@
 #include <ctkPluginFrameworkFactory.h>
 #include <ctkPluginFrameworkLauncher.h>
 
-PluginAdminService::PluginAdminService(ctkPluginContext *context, QObject *parent) :
+PluginAdminService::PluginAdminService(ctkPluginContext* context, QObject* parent) :
     QObject(parent),
     m_context(context),
     m_eventAdmin(nullptr),
@@ -18,12 +18,12 @@ PluginAdminService::PluginAdminService(ctkPluginContext *context, QObject *paren
     context->registerService<PluginAdmin>(this);
     ctkServiceReference eventRef = context->getServiceReference<ctkEventAdmin>();
     m_eventAdmin = qobject_cast<ctkEventAdmin*>(context->getService(eventRef));
-    if(eventRef){
+    if (eventRef) {
         context->ungetService(eventRef);
     }
 
     m_path = QCoreApplication::applicationDirPath() + "/plugins";
-    ctkPluginFrameworkLauncher::addSearchPath(m_path,true);
+    ctkPluginFrameworkLauncher::addSearchPath(m_path, true);
 #if defined(Q_OS_WIN)
     m_libFilter << "*.dll";
 #elif defined(Q_OS_LINUX)
@@ -41,14 +41,15 @@ void PluginAdminService::installAllPlugin()
 {
     QDirIterator dirIter(m_path, m_libFilter, QDir::Files);
     QString fileLocation;
-    while(dirIter.hasNext()) {
+    while (dirIter.hasNext()) {
         try {
             fileLocation = dirIter.next();
-            if(!fileLocation.contains(QString("pluginadmin"))){
+            if (!fileLocation.contains(QString("pluginadmin"))) {
                 m_context->installPlugin(QUrl::fromLocalFile(fileLocation));
                 qDebug() << QStringLiteral("1.1 安装插件：") << fileLocation;
-            } else {
-                qDebug() << QStringLiteral("1.2 未重复安装插件：" )<< fileLocation;
+            }
+            else {
+                qDebug() << QStringLiteral("1.2 未重复安装插件：") << fileLocation;
             }
         }
         catch (const ctkPluginException& exc) {
@@ -59,14 +60,15 @@ void PluginAdminService::installAllPlugin()
 
 void PluginAdminService::startAllPlugin()
 {
-    foreach (const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
+    foreach(const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
         try {
-            if(QString("system.plugin") != plugin->getSymbolicName()
-                    && QString("pluginadmin") != plugin->getSymbolicName()){
+            if (QString("system.plugin") != plugin->getSymbolicName()
+                && QString("pluginadmin") != plugin->getSymbolicName()) {
                 plugin->start();
-                qDebug() <<QStringLiteral( "2.1 启动插件：" )<< plugin->getSymbolicName();
-            } else {
-                qDebug() <<QStringLiteral( "2.2 未重复启动插件：") << plugin->getSymbolicName();
+                qDebug() << QStringLiteral("2.1 启动插件：") << plugin->getSymbolicName();
+            }
+            else {
+                qDebug() << QStringLiteral("2.2 未重复启动插件：") << plugin->getSymbolicName();
             }
         }
         catch (const ctkPluginException& exc) {
@@ -77,14 +79,15 @@ void PluginAdminService::startAllPlugin()
 
 void PluginAdminService::stopAllPlugin()
 {
-    foreach (const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
+    foreach(const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
         try {
-            if(QString("system.plugin") != plugin->getSymbolicName()
-                    && QString("pluginadmin") != plugin->getSymbolicName()){
-                qDebug() << QStringLiteral("3.1 停止插件：" )<< plugin->getSymbolicName();
+            if (QString("system.plugin") != plugin->getSymbolicName()
+                && QString("pluginadmin") != plugin->getSymbolicName()) {
+                qDebug() << QStringLiteral("3.1 停止插件：") << plugin->getSymbolicName();
                 plugin->stop();
-            } else {
-                qDebug() << QStringLiteral(".2 未停止运行插件：" )<< plugin->getSymbolicName();
+            }
+            else {
+                qDebug() << QStringLiteral(".2 未停止运行插件：") << plugin->getSymbolicName();
             }
         }
         catch (const ctkPluginException& exc) {
@@ -95,11 +98,11 @@ void PluginAdminService::stopAllPlugin()
 
 void PluginAdminService::uninstallAllPlugin()
 {
-    foreach (const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
+    foreach(const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
         try {
-            if(QString("system.plugin") != plugin->getSymbolicName()
-                    && QString("pluginadmin") != plugin->getSymbolicName()){
-                qDebug() << QStringLiteral("4.1 卸载插件：" )<< plugin->getSymbolicName();
+            if (QString("system.plugin") != plugin->getSymbolicName()
+                && QString("pluginadmin") != plugin->getSymbolicName()) {
+                qDebug() << QStringLiteral("4.1 卸载插件：") << plugin->getSymbolicName();
                 plugin->uninstall();
             }
         }
@@ -108,8 +111,8 @@ void PluginAdminService::uninstallAllPlugin()
         }
     }
 
-    foreach (const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
-        qDebug() << QStringLiteral("4.2 未卸载插件：" )<< plugin->getSymbolicName();
+    foreach(const QSharedPointer<ctkPlugin> &plugin, m_context->getPlugins()) {
+        qDebug() << QStringLiteral("4.2 未卸载插件：") << plugin->getSymbolicName();
     }
 }
 

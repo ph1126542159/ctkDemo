@@ -16,7 +16,8 @@
 #include <service/event/ctkEventConstants.h>
 #include <service/event/ctkEventHandler.h>
 
-MainWindow::MainWindow(ctkPluginContext *context, QWidget *parent):
+
+MainWindow::MainWindow(ctkPluginContext* context, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_eventAdmin(nullptr),
@@ -27,14 +28,14 @@ MainWindow::MainWindow(ctkPluginContext *context, QWidget *parent):
     //事件管理服务
     ctkServiceReference eventAdminRef = m_context->getServiceReference<ctkEventAdmin>();
     m_eventAdmin = qobject_cast<ctkEventAdmin*>(m_context->getService(eventAdminRef));
-    if(!m_eventAdmin){
+    if (!m_eventAdmin) {
         qDebug() << QStringLiteral("事件管理服务获取失败！");
     }
 
     //插件管理服务
     ctkServiceReference pluginAdminRef = context->getServiceReference<PluginAdmin>();
-    m_pluginAdmin = qobject_cast<PluginAdmin *>(context->getService(pluginAdminRef));
-    if(!m_pluginAdmin){
+    m_pluginAdmin = qobject_cast<PluginAdmin*>(context->getService(pluginAdminRef));
+    if (!m_pluginAdmin) {
         qDebug() << QStringLiteral("插件管理服务获取失败！");
     }
 
@@ -47,6 +48,9 @@ MainWindow::MainWindow(ctkPluginContext *context, QWidget *parent):
     m_eventAdmin->publishSignal(this, SIGNAL(queuedPublished(ctkDictionary)), "cn/qtio/eventAdmin/subscriber/handleEvent", Qt::QueuedConnection);
     //注册同步信号
     m_eventAdmin->publishSignal(this, SIGNAL(directPublished(ctkDictionary)), "cn/qtio/eventAdmin/subscriber/handleEvent", Qt::DirectConnection);
+
+    // //订阅消息
+    m_eventAdmin->subscribeSlot(this, SLOT(subscribeSlot(const ctkEvent&)), props, Qt::QueuedConnection);
 }
 
 MainWindow::~MainWindow()
@@ -54,25 +58,43 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::closeEvent(QCloseEvent* event)
 {
     Q_UNUSED(event);
 }
-
-void MainWindow::handleEvent(const ctkEvent &event)
-{
+void MainWindow::subscribeSlot(const ctkEvent& event) {
     //查看消息包所有信息
-    foreach(QString propertyName,event.getPropertyNames()){
-        qDebug() << "key:"
-                 << propertyName
-                 << "value:"
-                 << event.getProperty(propertyName);
-    }
+    m_logService->log(ctkLogService::LOG_INFO, QStringLiteral("MainWindow::subscribeSlot(const ctkEvent& event)"));
+
+    // foreach(QString propertyName, event.getPropertyNames()) {
+    //     qDebug() << "key:"
+    //         << propertyName
+    //         << "value:"
+    //         << event.getProperty(propertyName);
+    // }
+}
+void MainWindow::handleEvent(const ctkEvent& event)
+{
+    m_logService->log(ctkLogService::LOG_INFO, QStringLiteral("MainWindow::handleEvent(const ctkEvent& event)"));
 }
 
 void MainWindow::on_subscriber_pushButton_clicked()
 {
 
+    try {
+        //日志服务
+        ctkServiceReference logServiceRef = m_context->getServiceReference("ctkLogService");
+        m_logService = qobject_cast<ctkLogService*>(m_context->getService(logServiceRef));
+        if (!m_logService) {
+            qDebug() << QStringLiteral("日志服务获取失败！");
+        }
+        else {
+            m_logService->log(ctkLogService::LOG_INFO, QStringLiteral("====================MainWindow::init()==========================="));
+        }
+    }
+    catch (...) {
+
+    }
 }
 
 void MainWindow::on_send_pushButton_clicked()
@@ -84,8 +106,8 @@ void MainWindow::on_send_pushButton_clicked()
     props.insert("sendType", "sendEvent");
     //事件业务
     props.insert("handleEvent", "MainWindow::on_send_pushButton_clicked()");
-    ctkEvent event("cn/qtio/eventAdmin/subscriber/handleEvent", props);
-    if(m_eventAdmin){
+    ctkEvent event("cn/qtio/eventAdmin/MainWindow/handleEvent", props);
+    if (m_eventAdmin) {
         //sendEvent:同步发布
         m_eventAdmin->sendEvent(event);
     }
@@ -101,7 +123,7 @@ void MainWindow::on_post_pushButton_clicked()
     //事件业务
     props.insert("handleEvent", "MainWindow::on_send_pushButton_clicked()");
     ctkEvent event("cn/qtio/eventAdmin/subscriber/handleEvent", props);
-    if(m_eventAdmin){
+    if (m_eventAdmin) {
         //postEvent:异步发布
         m_eventAdmin->postEvent(event);
     }
