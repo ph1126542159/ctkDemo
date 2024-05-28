@@ -1,8 +1,8 @@
-project(eventadmin)
+project(pluginadmin)
 
 string(REGEX REPLACE "(.*)/(.*)/(.*)" "\\1" PROJECT_CTK_DIR  ${PROJECT_SOURCE_DIR})
 
-set(PLUGIN_NAME org.commontk.eventadmin)
+set(PLUGIN_NAME cn.qtio.pluginadmin)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -18,13 +18,19 @@ macro(SEARCH_FILE list dir)
 endmacro()
 SEARCH_FILE(PLUGIN_RES_LIST ${PROJECT_CTK_DIR}/Plugins/${PLUGIN_NAME})
 
+macro(SEARCH_UI_FILE list dir)
+    file(GLOB_RECURSE children "${dir}/*.ui")
+    set(${list} ${children})
+endmacro()
+SEARCH_UI_FILE(PLUGIN_UI_LIST ${PROJECT_CTK_DIR}/Plugins/${PLUGIN_NAME})
+
 file(GLOB_RECURSE QRC_SOURCE_FILES ${PROJECT_CTK_DIR}/Plugins/${PLUGIN_NAME}/*.qrc)
 qt5_add_resources(QRC_FILES ${QRC_SOURCE_FILES})
-
+qt5_wrap_ui(UI_HEADERS ${PLUGIN_UI_LIST})
 
 include_directories(${PROJECT_CTK_DIR}/ctk/ctkCore/include ${PROJECT_CTK_DIR}/ctk/ctkPluginFramework ${PROJECT_CTK_DIR}/ctk/ctkPluginFramework/include)
 
-add_library(${PROJECT_NAME} ${PLUGIN_RES_LIST} ${QRC_FILES})
+add_library(${PROJECT_NAME} ${PLUGIN_RES_LIST} ${UI_HEADERS} ${QRC_FILES})
 add_dependencies(${PROJECT_NAME} ctkPluginFramework)
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Concurrent ctkPluginFramework)
 

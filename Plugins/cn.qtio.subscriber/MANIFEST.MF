@@ -1,0 +1,8 @@
+Plugin-SymbolicName: subscriber
+Plugin-ActivationPolicy: eager
+Plugin-Category: Rp Creator
+Plugin-ContactAddress:
+Plugin-Description: This is subscriber plugin
+Plugin-Name: subscriber
+Plugin-Vendor: HouLei
+Require-Plugin: eventadmin

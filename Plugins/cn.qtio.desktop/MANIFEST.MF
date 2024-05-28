@@ -1,0 +1,8 @@
+﻿Plugin-SymbolicName: desktop
+Plugin-ActivationPolicy:eager
+Plugin-Category:
+Plugin-ContactAddress:
+Plugin-Description:
+Plugin-Name: desktop
+Plugin-Vendor: HouLei
+Require-Plugin: eventadmin,pluginadmin

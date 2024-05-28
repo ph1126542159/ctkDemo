@@ -1,0 +1,8 @@
+Plugin-SymbolicName: publisher
+Plugin-ActivationPolicy: eager
+Plugin-Category: Rp Creator
+Plugin-ContactAddress:
+Plugin-Description: This is publisher plugin
+Plugin-Name: publisher
+Plugin-Vendor: HouLei
+Require-Plugin: eventadmin, subscriber

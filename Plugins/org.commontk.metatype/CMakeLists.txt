@@ -13,7 +13,7 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets Core Gui Concurrent REQUIRED)
 add_definitions(-DHAVE_QT5)
 
 macro(SEARCH_FILE list dir)
-    file(GLOB_RECURSE children "${dir}/*.h" "${dir}/*.hpp" "${dir}/*.c" "${dir}/*.cpp" "${dir}/*.ui")
+    file(GLOB_RECURSE children "${dir}/*.h" "${dir}/*.hpp" "${dir}/*.c" "${dir}/*.cpp")
     set(${list} ${children})
 endmacro()
 SEARCH_FILE(PLUGIN_RES_LIST ${PROJECT_CTK_DIR}/Plugins/${PLUGIN_NAME})

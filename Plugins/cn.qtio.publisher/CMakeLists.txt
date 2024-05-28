@@ -1,8 +1,8 @@
-project(eventadmin)
+project(publisher)
 
 string(REGEX REPLACE "(.*)/(.*)/(.*)" "\\1" PROJECT_CTK_DIR  ${PROJECT_SOURCE_DIR})
 
-set(PLUGIN_NAME org.commontk.eventadmin)
+set(PLUGIN_NAME cn.qtio.publisher)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)

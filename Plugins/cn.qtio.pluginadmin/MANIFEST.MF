@@ -1,0 +1,8 @@
+Plugin-SymbolicName: pluginadmin
+Plugin-ActivationPolicy:eager
+Plugin-Category:
+Plugin-ContactAddress:
+Plugin-Description:
+Plugin-Name: pluginadmin
+Plugin-Vendor: Lei.H
+Require-Plugin: eventadmin
