@@ -28,7 +28,6 @@ target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Sql Qt5::Concurrent ctkCore
 
 # 针对多配置生成器，可以设置不同配置的输出目录
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    DEBUG_POSTFIX "d"
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

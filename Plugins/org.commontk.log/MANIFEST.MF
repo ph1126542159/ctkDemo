@@ -1,0 +1,3 @@
+Plugin-SymbolicName: log
+Plugin-ActivationPolicy:eager
+Plugin-Name: log

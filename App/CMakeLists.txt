@@ -14,7 +14,6 @@ add_dependencies(${PROJECT_NAME} ctkPluginFramework)
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets ctkPluginFramework)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    DEBUG_POSTFIX "d"
     ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
