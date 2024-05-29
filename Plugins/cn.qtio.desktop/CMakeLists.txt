@@ -31,8 +31,11 @@ qt5_add_resources(QRC_FILES ${QRC_SOURCE_FILES})
 qt5_wrap_ui(UI_HEADERS ${PLUGIN_UI_LIST})
 
 include_directories(${PROJECT_CTK_DIR}/ctk/ctkCore/include ${PROJECT_CTK_DIR}/ctk/ctkPluginFramework ${PROJECT_CTK_DIR}/ctk/ctkPluginFramework/include)
+
 add_library(${PROJECT_NAME} ${PLUGIN_RES_LIST} ${UI_HEADERS} ${QRC_FILES})
+
 add_dependencies(${PROJECT_NAME} ctkPluginFramework)
+
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Concurrent Qt5::Network ctkPluginFramework)
 
 
